@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0B0B0D">
+<meta name="description" content="BAU Riders — official motorbiking club of Bahçeşehir University. Website, Instagram and WhatsApp group in one place.">
+<meta property="og:title" content="BAU Riders — Links">
+<meta property="og:description" content="Website · Instagram · WhatsApp — Ride to live, live to ride.">
+<meta property="og:type" content="website">
+<title>BAU Riders — Links</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- Tokens ---------- */
+  :root{
+    --bg:#0B0B0D;
+    --bg-2:#141417;
+    --surface:#1A1A1F;
+    --surface-hover:#222228;
+    --line:rgba(255,255,255,.10);
+    --text:#F4EDE0;
+    --text-2:rgba(244,237,224,.62);
+    --text-3:rgba(244,237,224,.38);
+    --red:#E84050;
+    --red-glow:rgba(232,64,80,.35);
+    --ig:#E1306C;
+    --wa:#25D366;
+    --radius:14px;
+    --font-display:"Bebas Neue","Oswald",Impact,sans-serif;
+    --font-mono:"DM Mono",ui-monospace,Menlo,monospace;
+    --font-body:"Inter",system-ui,-apple-system,sans-serif;
+  }
+  :root[data-theme="light"]{
+    --bg:#F4EDE0;
+    --bg-2:#ECE3D2;
+    --surface:#FFFFFF;
+    --surface-hover:#FBF7F0;
+    --line:rgba(11,11,13,.10);
+    --text:#0B0B0D;
+    --text-2:rgba(11,11,13,.62);
+    --text-3:rgba(11,11,13,.40);
+    --red-glow:rgba(232,64,80,.25);
+  }
+
+  /* ---------- Base ---------- */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    min-height:100dvh;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    display:flex;flex-direction:column;align-items:center;
+    padding:24px 16px 40px;
+    position:relative;overflow-x:hidden;
+    transition:background .3s,color .3s;
+  }
+  /* subtle road-line texture */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background:
+      radial-gradient(60% 40% at 50% 0%, var(--red-glow), transparent 70%),
+      repeating-linear-gradient(0deg, transparent 0 46px, var(--line) 46px 47px);
+    opacity:.55;
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:relative;z-index:2;
+    width:100%;max-width:440px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--text-3);
+  }
+  .toggle{
+    display:inline-flex;align-items:center;gap:6px;
+    background:none;border:0;cursor:pointer;
+    font:inherit;color:var(--text-3);letter-spacing:inherit;text-transform:inherit;
+    padding:6px 2px;
+  }
+  .toggle b{font-weight:500;color:var(--text)}
+  .toggle .sep{opacity:.5}
+  .toggle:hover{color:var(--text-2)}
+
+  /* ---------- Header ---------- */
+  .card{
+    position:relative;z-index:2;
+    width:100%;max-width:440px;
+    display:flex;flex-direction:column;align-items:center;
+    text-align:center;
+    margin-top:36px;
+  }
+  .logo{
+    width:104px;height:104px;border-radius:50%;
+    border:2px solid var(--red);
+    display:grid;place-items:center;
+    background:var(--surface);
+    box-shadow:0 0 0 6px var(--bg), 0 0 40px var(--red-glow);
+    overflow:hidden;
+    margin-bottom:22px;
+  }
+  .logo img{width:100%;height:100%;object-fit:cover;display:block}
+  .logo .mark{
+    font-family:var(--font-display);font-size:34px;line-height:1;letter-spacing:.04em;
+    color:var(--text);
+  }
+  .logo .mark span{color:var(--red)}
+
+  h1{
+    font-family:var(--font-display);
+    font-size:clamp(46px,12vw,58px);
+    line-height:.92;letter-spacing:.03em;
+    text-transform:uppercase;
+  }
+  h1 em{font-style:normal;color:var(--red)}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--text-3);margin-top:14px;
+  }
+  .tagline{
+    margin-top:14px;max-width:320px;
+    font-size:14px;line-height:1.55;color:var(--text-2);
+  }
+
+  /* ---------- Links ---------- */
+  .links{
+    position:relative;z-index:2;
+    width:100%;max-width:440px;
+    display:flex;flex-direction:column;gap:12px;
+    margin-top:36px;
+  }
+  .link{
+    --accent:var(--red);
+    display:grid;grid-template-columns:48px 1fr auto;align-items:center;gap:14px;
+    padding:14px 16px 14px 14px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    position:relative;overflow:hidden;
+    transition:transform .18s ease, border-color .18s, background .18s, box-shadow .18s;
+  }
+  .link::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--accent);opacity:0;transition:opacity .18s;
+  }
+  .link:hover,.link:focus-visible{
+    transform:translateY(-2px);
+    background:var(--surface-hover);
+    border-color:color-mix(in srgb, var(--accent) 45%, var(--line));
+    box-shadow:0 10px 30px -14px var(--accent);
+    outline:none;
+  }
+  .link:hover::before,.link:focus-visible::before{opacity:1}
+  .link:active{transform:translateY(0) scale(.99)}
+
+  .icon{
+    width:48px;height:48px;border-radius:12px;
+    display:grid;place-items:center;
+    background:color-mix(in srgb, var(--accent) 14%, transparent);
+    color:var(--accent);
+  }
+  .icon svg{width:24px;height:24px;fill:currentColor}
+  .label{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .label .name{
+    font-family:var(--font-display);font-size:22px;letter-spacing:.05em;line-height:1;
+    text-transform:uppercase;
+  }
+  .label .sub{
+    font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;
+    color:var(--text-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .arrow{
+    font-family:var(--font-mono);font-size:16px;color:var(--text-3);
+    transition:transform .18s,color .18s;
+  }
+  .link:hover .arrow{transform:translateX(3px);color:var(--accent)}
+
+  .link.site{--accent:var(--red)}
+  .link.ig{--accent:var(--ig)}
+  .link.wa{--accent:var(--wa)}
+
+  /* ---------- Footer ---------- */
+  footer{
+    position:relative;z-index:2;
+    margin-top:auto;padding-top:48px;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    text-align:center;
+  }
+  .motto{
+    font-family:var(--font-display);font-size:18px;letter-spacing:.14em;
+    color:var(--text-3);
+  }
+  .motto span{color:var(--red)}
+  .copy{
+    font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--text-3);
+  }
+  .copy a:hover{color:var(--text)}
+
+  /* ---------- Entrance ---------- */
+  @media (prefers-reduced-motion:no-preference){
+    .card,.link,footer{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}
+    .link:nth-child(1){animation-delay:.10s}
+    .link:nth-child(2){animation-delay:.18s}
+    .link:nth-child(3){animation-delay:.26s}
+    footer{animation-delay:.34s}
+    @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <button class="toggle" id="langToggle" type="button" aria-label="Switch language">
+      <b data-lang-en>EN</b><span class="sep">/</span><span data-lang-tr>TR</span>
+    </button>
+    <button class="toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+      <span id="themeLabel">Light</span>
+    </button>
+  </div>
+
+  <header class="card">
+    <div class="logo" aria-hidden="true">
+      <!-- Drop a logo.png next to this file and uncomment the line below; delete the text mark. -->
+      <!-- <img src="logo.png" alt="BAU Riders"> -->
+      <div class="mark">B<span>R</span></div>
+    </div>
+    <h1 lang="en">BAU <em>Riders</em></h1>
+    <p class="eyebrow" data-i18n="eyebrow">Official Motorbiking Club · Bahçeşehir University · Istanbul</p>
+    <p class="tagline" data-i18n="tagline">Students, alumni, and new riders — all welcome. Find us below.</p>
+  </header>
+
+  <nav class="links" aria-label="Links">
+
+    <a class="link site" href="https://bauriders.com" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm7.93 9h-3.02a15.6 15.6 0 0 0-1.3-5.36A8.03 8.03 0 0 1 19.93 11ZM12 4.06c.9 1.2 1.8 3.4 2.2 6.94H9.8c.4-3.54 1.3-5.74 2.2-6.94ZM8.39 5.64A15.6 15.6 0 0 0 7.09 11H4.07a8.03 8.03 0 0 1 4.32-5.36ZM4.07 13h3.02c.14 2 .6 3.82 1.3 5.36A8.03 8.03 0 0 1 4.07 13ZM12 19.94c-.9-1.2-1.8-3.4-2.2-6.94h4.4c-.4 3.54-1.3 5.74-2.2 6.94Zm3.61-1.58A15.6 15.6 0 0 0 16.91 13h3.02a8.03 8.03 0 0 1-4.32 5.36Z"/></svg>
+      </span>
+      <span class="label">
+        <span class="name" data-i18n="site">Website</span>
+        <span class="sub">bauriders.com</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="link ig" href="https://www.instagram.com/bauriders" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16ZM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95C23.73 2.7 21.3.27 16.95.07 15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Z"/></svg>
+      </span>
+      <span class="label">
+        <span class="name" lang="en">Instagram</span>
+        <span class="sub">@bauriders</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a class="link wa" href="https://chat.whatsapp.com/Hh6DdysrQ936bJdAV2XIAC" target="_blank" rel="noopener">
+      <span class="icon">
+        <svg viewBox="0 0 24 24"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.48a8.96 8.96 0 0 1-1.66-2.06c-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.91-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35ZM12.05 21.8h-.01a9.85 9.85 0 0 1-5.02-1.37l-.36-.21-3.73.98 1-3.64-.24-.37a9.82 9.82 0 0 1-1.5-5.24c0-5.42 4.42-9.83 9.86-9.83 2.63 0 5.1 1.03 6.96 2.89a9.78 9.78 0 0 1 2.88 6.95c0 5.42-4.42 9.83-9.84 9.83Zm8.37-18.2A11.8 11.8 0 0 0 12.05 0C5.5 0 .16 5.33.16 11.88c0 2.1.55 4.14 1.59 5.94L0 24l6.33-1.66a11.9 11.9 0 0 0 5.72 1.45c6.55 0 11.89-5.33 11.89-11.88 0-3.18-1.24-6.16-3.52-8.41Z"/></svg>
+      </span>
+      <span class="label">
+        <span class="name" lang="en">WhatsApp</span>
+        <span class="sub" data-i18n="waSub">Join the group chat</span>
+      </span>
+      <span class="arrow">→</span>
+    </a>
+
+  </nav>
+
+  <footer>
+    <div class="motto" data-i18n="motto">Ride to live. <span>Live to ride.</span></div>
+    <div class="copy" lang="en">© <span id="year"></span> BAU Riders · <a href="mailto:bau.riders@dso.bau.edu.tr" style="text-transform:none">bau.riders@dso.bau.edu.tr</a></div>
+  </footer>
+
+<script>
+  /* ---------- i18n ---------- */
+  const T = {
+    en:{
+      eyebrow:"Official Motorbiking Club · Bahçeşehir University · Istanbul",
+      tagline:"Students, alumni, and new riders — all welcome. Find us below.",
+      site:"Website",
+      waSub:"Join the group chat",
+      motto:'Ride to live. <span>Live to ride.</span>',
+      theme:{dark:"Light",light:"Dark"}
+    },
+    tr:{
+      eyebrow:"Resmi Motosiklet Kulübü · Bahçeşehir Üniversitesi · İstanbul",
+      tagline:"Öğrenciler, mezunlar ve yeni sürücüler — herkes davetli. Bizi aşağıda bul.",
+      site:"Web Sitesi",
+      waSub:"Grup sohbetine katıl",
+      motto:'Sürmek için yaşa. <span>Yaşamak için sür.</span>',
+      theme:{dark:"Açık",light:"Koyu"}
+    }
+  };
+
+  const root = document.documentElement;
+  let lang  = localStorage.getItem("br-lang")  || (navigator.language.startsWith("tr") ? "tr" : "en");
+  let theme = localStorage.getItem("br-theme") || "dark";
+
+  function applyLang(){
+    root.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(el=>{
+      const key = el.dataset.i18n;
+      if (key === "motto") el.innerHTML = T[lang][key]; else el.textContent = T[lang][key];
+    });
+    document.querySelector("[data-lang-en]").outerHTML = lang==="en" ? '<b data-lang-en>EN</b>' : '<span data-lang-en>EN</span>';
+    document.querySelector("[data-lang-tr]").outerHTML = lang==="tr" ? '<b data-lang-tr>TR</b>' : '<span data-lang-tr>TR</span>';
+    document.getElementById("themeLabel").textContent = T[lang].theme[theme];
+  }
+  function applyTheme(){
+    root.setAttribute("data-theme", theme);
+    document.querySelector('meta[name="theme-color"]').content = theme==="dark" ? "#0B0B0D" : "#F4EDE0";
+    document.getElementById("themeLabel").textContent = T[lang].theme[theme];
+  }
+
+  document.getElementById("langToggle").addEventListener("click", ()=>{
+    lang = lang==="en" ? "tr" : "en"; localStorage.setItem("br-lang", lang); applyLang();
+  });
+  document.getElementById("themeToggle").addEventListener("click", ()=>{
+    theme = theme==="dark" ? "light" : "dark"; localStorage.setItem("br-theme", theme); applyTheme();
+  });
+
+  document.getElementById("year").textContent = new Date().getFullYear();
+  applyTheme(); applyLang();
+</script>
+</body>
+</html>
