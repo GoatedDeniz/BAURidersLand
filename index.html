@@ -204,33 +204,71 @@
   }
 
   /* ---------- Intro ----------
-     The intro animates the header logo itself, in place, so the end
-     state is pixel-identical to the normal page. Other content is held
-     invisible until body.ready, then rises in via the Entrance rules. */
+     "Armor assembly": helmet drops in, each wing snaps in from its side
+     with speed streaks + motion blur, locks with a weld spark, then the
+     whole logo flashes once. Animates the real header logo in place, so
+     the end state is pixel-identical to the normal page. */
   .card > :not(.logo), .links, footer{opacity:0}
   body.ready .card > :not(.logo), body.ready .links, body.ready footer{opacity:1}
   .logo-svg{overflow:visible}
   .logo-svg g{transform-box:view-box}
+  .streaks, .spark{opacity:0;pointer-events:none}
+  .streaks rect{fill:#fff}
+  .spark{fill:#fff}
+
+  /* timings */
+  :root{
+    --t-helmet:.45s;   --d-helmet:.05s;
+    --t-wing:.32s;     --d-wl:.42s;  --d-wr:.64s;
+    --ease-out:cubic-bezier(.16,1,.3,1);
+    --ease-snap:cubic-bezier(.1,.9,.2,1);
+  }
   body.intro .helmet{
     transform-origin:1584px 1900px;
-    animation:helmetIn .8s cubic-bezier(.34,1.45,.64,1) .1s both;
+    animation:helmetIn var(--t-helmet) var(--ease-out) var(--d-helmet) both;
   }
-  body.intro .wing-l{transform-origin:560px 1350px;animation:wingLIn .8s cubic-bezier(.34,1.45,.64,1) .55s both}
-  body.intro .wing-r{transform-origin:2600px 1350px;animation:wingRIn .8s cubic-bezier(.34,1.45,.64,1) .55s both}
+  body.intro .wing-l{transform-origin:560px 1350px; animation:wingLIn var(--t-wing) var(--ease-snap) var(--d-wl) both}
+  body.intro .wing-r{transform-origin:2600px 1350px;animation:wingRIn var(--t-wing) var(--ease-snap) var(--d-wr) both}
+  body.intro .streaks-l{animation:streakL .42s var(--ease-snap) calc(var(--d-wl) - .06s) both}
+  body.intro .streaks-r{animation:streakR .42s var(--ease-snap) calc(var(--d-wr) - .06s) both}
+  body.intro .spark-l{animation:spark .34s ease-out calc(var(--d-wl) + var(--t-wing) - .08s) both}
+  body.intro .spark-r{animation:spark .34s ease-out calc(var(--d-wr) + var(--t-wing) - .08s) both}
+  body.intro .logo-svg{animation:lockFlash .5s ease-out calc(var(--d-wr) + var(--t-wing)) both}
+
   @keyframes helmetIn{
-    0%  {opacity:0;transform:translateY(900px) scale(.35)}
-    30% {opacity:1}
+    0%  {opacity:0;transform:translateY(760px) scale(.92)}
+    35% {opacity:1}
     100%{opacity:1;transform:none}
   }
   @keyframes wingLIn{
-    0%  {opacity:0;transform:translateX(-1200px) scale(.5)}
-    30% {opacity:1}
-    100%{opacity:1;transform:none}
+    0%  {opacity:0;transform:translateX(-1500px) skewX(-14deg);filter:blur(14px)}
+    25% {opacity:1}
+    100%{opacity:1;transform:none;filter:blur(0)}
   }
   @keyframes wingRIn{
-    0%  {opacity:0;transform:translateX(1200px) scale(.5)}
-    30% {opacity:1}
-    100%{opacity:1;transform:none}
+    0%  {opacity:0;transform:translateX(1500px) skewX(14deg);filter:blur(14px)}
+    25% {opacity:1}
+    100%{opacity:1;transform:none;filter:blur(0)}
+  }
+  @keyframes streakL{
+    0%  {opacity:0;transform:translateX(0)}
+    20% {opacity:.9}
+    100%{opacity:0;transform:translateX(3400px)}
+  }
+  @keyframes streakR{
+    0%  {opacity:0;transform:translateX(0)}
+    20% {opacity:.9}
+    100%{opacity:0;transform:translateX(-3400px)}
+  }
+  @keyframes spark{
+    0%  {opacity:1;r:0;fill:#fff}
+    40% {opacity:.9;r:150px;fill:#fff}
+    100%{opacity:0;r:420px;fill:var(--red)}
+  }
+  @keyframes lockFlash{
+    0%  {filter:brightness(1)}
+    18% {filter:brightness(2.2) drop-shadow(0 0 22px rgba(255,255,255,.55))}
+    100%{filter:brightness(1)}
   }
 
   /* ---------- Entrance ---------- */
@@ -259,9 +297,23 @@
   <header class="card">
     <div class="logo">
       <svg class="logo-svg" viewBox="0 0 3155 2648" role="img" aria-label="BAU Riders">
+        <g class="streaks streaks-l" aria-hidden="true">
+          <rect x="-2200" y="1180" width="1500" height="14" rx="7"/>
+          <rect x="-2600" y="1420" width="2100" height="22" rx="11"/>
+          <rect x="-1900" y="1700" width="1200" height="12" rx="6"/>
+          <rect x="-2400" y="1960" width="1700" height="18" rx="9"/>
+        </g>
+        <g class="streaks streaks-r" aria-hidden="true">
+          <rect x="3855" y="1120" width="1500" height="14" rx="7"/>
+          <rect x="3655" y="1380" width="2100" height="22" rx="11"/>
+          <rect x="3855" y="1660" width="1200" height="12" rx="6"/>
+          <rect x="3855" y="1920" width="1700" height="18" rx="9"/>
+        </g>
         <g class="wing wing-l" clip-path="url(#cl-l)"><use href="#br-logo"/></g>
         <g class="helmet"      clip-path="url(#cl-h)"><use href="#br-logo"/></g>
         <g class="wing wing-r" clip-path="url(#cl-r)"><use href="#br-logo"/></g>
+        <circle class="spark spark-l" cx="1050" cy="1560" r="0" aria-hidden="true"/>
+        <circle class="spark spark-r" cx="2120" cy="1560" r="0" aria-hidden="true"/>
       </svg>
     </div>
     <h1 lang="en">BAU <em>Riders</em></h1>
@@ -327,9 +379,9 @@
     if (reduce || seen){ body.classList.add("ready"); return; }
     body.classList.add("intro");
     try{ sessionStorage.setItem("br-intro","1"); }catch(e){}
-    /* helmet .1s + .8s, wings .55s + .8s  → reveal the rest at ~1.3s */
-    setTimeout(()=>{ body.classList.add("ready"); }, 1300);
-    setTimeout(()=>{ body.classList.remove("intro"); }, 2200); /* drop animation styles once settled */
+    /* right wing locks at ~.96s, flash runs to ~1.45s → reveal the rest at 1.1s */
+    setTimeout(()=>{ body.classList.add("ready"); }, 1100);
+    setTimeout(()=>{ body.classList.remove("intro"); }, 2000); /* drop animation styles once settled */
   })();
 
   /* ---------- i18n ---------- */
