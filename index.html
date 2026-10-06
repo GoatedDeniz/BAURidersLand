@@ -297,9 +297,14 @@
   };
 
   const root = document.documentElement;
+  /* Auto language: Turkish if the device/browser prefers Turkish, otherwise English.
+     navigator.languages is a plain read-only property — no permission prompt involved.
+     A manual EN/TR tap is remembered and overrides the auto choice on later visits. */
+  const prefersTurkish = (navigator.languages || [navigator.language || ""])
+    .some(l => /^tr\b/i.test(l));
   let lang;
   try { lang = localStorage.getItem("br-lang"); } catch(e){}
-  lang = lang || (navigator.language.startsWith("tr") ? "tr" : "en");
+  if (lang !== "en" && lang !== "tr") lang = prefersTurkish ? "tr" : "en";
   const save = (k,v)=>{ try{ localStorage.setItem(k,v);}catch(e){} };
 
   function applyLang(){
