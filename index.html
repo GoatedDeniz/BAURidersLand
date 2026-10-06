@@ -203,49 +203,39 @@
     .eyebrow{display:none}
   }
 
-  /* ---------- Intro ---------- */
-  .wrap{opacity:0}
-  body.ready .wrap{opacity:1}
-  #intro{
-    position:fixed;inset:0;z-index:50;background:var(--bg);
-    display:none;
-  }
-  body.intro #intro{display:block}
-  #intro .flare{
-    position:absolute;left:50%;top:50%;width:140vmin;height:140vmin;
-    transform:translate(-50%,-50%);
-    background:radial-gradient(closest-side, var(--red-glow), transparent 70%);
-    opacity:0;animation:flare 1.4s ease-out .25s both;
-  }
-  #intro .intro-logo{
-    position:absolute;left:50%;top:50%;
-    width:min(82vw,420px);aspect-ratio:3155/2648;
-    transform:translate(-50%,-50%);
-    fill:#fff;overflow:visible;
-    will-change:transform;
-  }
-  #intro .intro-logo g{transform-box:view-box}
-  #intro .helmet{
+  /* ---------- Intro ----------
+     The intro animates the header logo itself, in place, so the end
+     state is pixel-identical to the normal page. Other content is held
+     invisible until body.ready, then rises in via the Entrance rules. */
+  .card > :not(.logo), .links, footer{opacity:0}
+  body.ready .card > :not(.logo), body.ready .links, body.ready footer{opacity:1}
+  .logo-svg{overflow:visible}
+  .logo-svg g{transform-box:view-box}
+  body.intro .helmet{
     transform-origin:1584px 1900px;
-    animation:helmetIn .55s cubic-bezier(.2,.7,.2,1) both;
+    animation:helmetIn .8s cubic-bezier(.34,1.45,.64,1) .1s both;
   }
-  #intro .wing-l{transform-origin:1039px 1600px;animation:wingL .85s cubic-bezier(.22,.9,.3,1.15) .35s both}
-  #intro .wing-r{transform-origin:2130px 1600px;animation:wingR .85s cubic-bezier(.22,.9,.3,1.15) .35s both}
-  @keyframes helmetIn{from{opacity:0;transform:scale(.82) translateY(60px)}to{opacity:1;transform:none}}
-  @keyframes wingL{from{opacity:0;transform:rotate(34deg) scale(.15,.7)}40%{opacity:1}to{opacity:1;transform:none}}
-  @keyframes wingR{from{opacity:0;transform:rotate(-34deg) scale(.15,.7)}40%{opacity:1}to{opacity:1;transform:none}}
-  @keyframes flare{0%{opacity:0}45%{opacity:1}100%{opacity:.35}}
-  /* fly to header position */
-  #intro.fly .intro-logo{transition:transform .6s cubic-bezier(.4,0,.2,1)}
-  #intro.fly{transition:background-color .6s ease .1s}
-  #intro.fly .flare{transition:opacity .4s ease;opacity:0 !important}
-  #intro.done{display:none !important}
-  body.ready .logo-svg{visibility:visible}
-  body.intro .logo-svg{visibility:hidden}
+  body.intro .wing-l{transform-origin:560px 1350px;animation:wingLIn .8s cubic-bezier(.34,1.45,.64,1) .55s both}
+  body.intro .wing-r{transform-origin:2600px 1350px;animation:wingRIn .8s cubic-bezier(.34,1.45,.64,1) .55s both}
+  @keyframes helmetIn{
+    0%  {opacity:0;transform:translateY(900px) scale(.35)}
+    30% {opacity:1}
+    100%{opacity:1;transform:none}
+  }
+  @keyframes wingLIn{
+    0%  {opacity:0;transform:translateX(-1200px) scale(.5)}
+    30% {opacity:1}
+    100%{opacity:1;transform:none}
+  }
+  @keyframes wingRIn{
+    0%  {opacity:0;transform:translateX(1200px) scale(.5)}
+    30% {opacity:1}
+    100%{opacity:1;transform:none}
+  }
 
   /* ---------- Entrance ---------- */
   @media (prefers-reduced-motion:no-preference){
-    body.ready .card,body.ready .link,body.ready footer{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}
+    body.ready .card > :not(.logo),body.ready .link,body.ready footer{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}
     .link:nth-child(1){animation-delay:.10s}
     .link:nth-child(2){animation-delay:.18s}
     .link:nth-child(3){animation-delay:.26s}
@@ -264,19 +254,15 @@
   </defs>
 </svg>
 
-<div id="intro" aria-hidden="true">
-  <div class="flare"></div>
-  <svg class="intro-logo" viewBox="0 0 3155 2648">
-    <g class="wing wing-l" clip-path="url(#cl-l)"><use href="#br-logo"/></g>
-    <g class="helmet" clip-path="url(#cl-h)"><use href="#br-logo"/></g>
-    <g class="wing wing-r" clip-path="url(#cl-r)"><use href="#br-logo"/></g>
-  </svg>
-</div>
 <div class="wrap">
 
   <header class="card">
     <div class="logo">
-      <svg class="logo-svg" viewBox="0 0 3155 2648" role="img" aria-label="BAU Riders"><use href="#br-logo"/></svg>
+      <svg class="logo-svg" viewBox="0 0 3155 2648" role="img" aria-label="BAU Riders">
+        <g class="wing wing-l" clip-path="url(#cl-l)"><use href="#br-logo"/></g>
+        <g class="helmet"      clip-path="url(#cl-h)"><use href="#br-logo"/></g>
+        <g class="wing wing-r" clip-path="url(#cl-r)"><use href="#br-logo"/></g>
+      </svg>
     </div>
     <h1 lang="en">BAU <em>Riders</em></h1>
     <p class="eyebrow" data-i18n="eyebrow">Official Motorbiking Club · Bahçeşehir University · Istanbul</p>
@@ -335,25 +321,15 @@
 <script>
   /* ---------- Intro ---------- */
   (function(){
-    const body=document.body, intro=document.getElementById("intro");
+    const body=document.body;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let seen=false; try{ seen = sessionStorage.getItem("br-intro")==="1"; }catch(e){}
     if (reduce || seen){ body.classList.add("ready"); return; }
     body.classList.add("intro");
     try{ sessionStorage.setItem("br-intro","1"); }catch(e){}
-    const finish=()=>{ intro.classList.add("done"); body.classList.remove("intro"); body.classList.add("ready"); };
-    setTimeout(()=>{
-      const a=intro.querySelector(".intro-logo").getBoundingClientRect();
-      const t=document.querySelector(".logo").getBoundingClientRect();
-      const sc=t.width/a.width;
-      const dx=(t.left+t.width/2)-(a.left+a.width/2);
-      const dy=(t.top+t.height/2)-(a.top+a.height/2);
-      intro.querySelector(".intro-logo").style.transform=`translate(-50%,-50%) translate(${dx}px,${dy}px) scale(${sc})`;
-      intro.classList.add("fly"); intro.style.backgroundColor="transparent";
-      body.classList.add("ready");            /* page rises in while the logo flies up */
-      setTimeout(finish, 650);
-    }, 1350);
-    setTimeout(finish, 3000); /* safety net */
+    /* helmet .1s + .8s, wings .55s + .8s  → reveal the rest at ~1.3s */
+    setTimeout(()=>{ body.classList.add("ready"); }, 1300);
+    setTimeout(()=>{ body.classList.remove("intro"); }, 2200); /* drop animation styles once settled */
   })();
 
   /* ---------- i18n ---------- */
